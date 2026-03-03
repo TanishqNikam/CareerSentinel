@@ -1,5 +1,5 @@
 import yaml
-from scraper import fetch_jobs_api, fetch_page, parse_jobs
+from scraper import fetch_jobs_api, parse_eightfold_jobs
 
 
 def load_config():
@@ -8,14 +8,18 @@ def load_config():
 
 
 def run():
-    # hardcode the endpoint for now
+    # TEMP: still hardcoding endpoint for Amex
     url = "https://aexp.eightfold.ai/api/apply/v2/jobs/40416958/jobs?domain=aexp.com"
 
-    print("Calling API:", url)
-    data = fetch_jobs_api(url)
+    print("Fetching jobs from American Express...\n")
 
-    print("API response keys:", data.keys())
-    print("Sample data:", data)
+    data = fetch_jobs_api(url)
+    jobs = parse_eightfold_jobs(data)
+
+    print(f"Total jobs fetched: {len(jobs)}\n")
+
+    for job in jobs[:5]:
+        print(job)
 
 
 if __name__ == "__main__":
