@@ -38,3 +38,41 @@ def parse_jobs(html, company_name):
             })
 
     return jobs
+
+import json
+
+def fetch_jobs_api(api_url):
+    """
+    Fetch jobs data from the Eightfold API endpoint.
+    """
+
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json"
+    }
+
+    response = requests.get(api_url, headers=headers, timeout=10)
+    response.raise_for_status()
+
+    return response.json()
+
+def parse_eightfold_jobs(api_data):
+    """
+    Extract relevant job details from Eightfold API response.
+    """
+
+    jobs = []
+
+    positions = api_data.get("positions", [])
+
+    for job in positions:
+        job_info = {
+            "id": job.get("id"),
+            "title": job.get("name"),
+            "location": job.get("location"),
+            "url": job.get("canonicalPositionUrl")
+        }
+
+        jobs.append(job_info)
+
+    return jobs
