@@ -1,7 +1,9 @@
 companies:
   - name: American Express
-    url: "https://example.com/careers"
+    platform: eightfold
+    api_url: "https://aexp.eightfold.ai/api/apply/v2/jobs/40416958/jobs?domain=aexp.com"
     keywords:
       - Security
       - SOC
+      - Cyber
       - Analyst
