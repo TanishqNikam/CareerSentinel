@@ -1,0 +1,7 @@
+companies:
+  - name: American Express
+    url: "https://example.com/careers"
+    keywords:
+      - Security
+      - SOC
+      - Analyst
