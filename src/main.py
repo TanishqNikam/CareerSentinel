@@ -8,18 +8,19 @@ def load_config():
 
 
 def run():
-    # TEMP: still hardcoding endpoint for Amex
-    url = "https://aexp.eightfold.ai/api/apply/v2/jobs/40416958/jobs?domain=aexp.com"
+    config = load_config()
 
-    print("Fetching jobs from American Express...\n")
+    for company in config["companies"]:
+        print(f"\nFetching jobs from {company['name']}...\n")
 
-    data = fetch_jobs_api(url)
-    jobs = parse_eightfold_jobs(data)
+        if company["platform"] == "eightfold":
+            data = fetch_jobs_api(company["api_url"])
+            jobs = parse_eightfold_jobs(data)
 
-    print(f"Total jobs fetched: {len(jobs)}\n")
+            print(f"Total jobs fetched: {len(jobs)}")
 
-    for job in jobs[:5]:
-        print(job)
+            for job in jobs[:5]:
+                print(job)
 
 
 if __name__ == "__main__":
