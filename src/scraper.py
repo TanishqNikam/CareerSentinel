@@ -76,3 +76,50 @@ def parse_eightfold_jobs(api_data):
         jobs.append(job_info)
 
     return jobs
+
+import time
+
+def fetch_all_eightfold_jobs():
+    """
+    Fetch all paginated job listings from Eightfold API.
+    """
+
+    base_url = "https://aexp.eightfold.ai/api/apply/v2/jobs"
+
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json"
+    }
+
+    all_jobs = []
+    start = 0
+    page_size = 10
+
+    while True:
+        params = {
+            "domain": "aexp.com",
+            "start": start,
+            "num": page_size,
+            "exclude_pid": "40416958",
+            "location": "any",
+            "pid": "40416958",
+            "sort_by": "relevance"
+        }
+
+        response = requests.get(base_url, headers=headers, params=params, timeout=10)
+        response.raise_for_status()
+
+        data = response.json()
+        positions = data.get("positions", [])
+
+        if not positions:
+            break
+
+        print(f"Fetched {len(positions)} jobs (start={start})")
+
+        all_jobs.extend(positions)
+        start += page_size
+
+        time.sleep(0.5)  # polite rate limiting
+
+    return all_jobs
